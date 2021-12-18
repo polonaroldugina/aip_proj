@@ -26,6 +26,7 @@ RED = (255,0,0)
 GREEN = (0,255,0)
 REDORANGE = (245,103,32)
 
+#Запуск модулей для игры
 pygame.init()
 pygame.mixer.init()
 DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
@@ -37,6 +38,7 @@ FPSCLOCK = pygame.time.Clock()
 class EnemyShip(pygame.sprite.Sprite):
     def __init__(self, enemy_image, bullet_image, sprites_list, bullet_list, bullet_sound, boost_anim):
         super().__init__()
+        #Выбор размера и изображения объекта
         self.image = pygame.transform.scale(enemy_image, (60, 60))
         self.rect = self.image.get_rect()
 
@@ -52,14 +54,14 @@ class EnemyShip(pygame.sprite.Sprite):
         self.shoot_delay = 500
         self.last_shot = pygame.time.get_ticks()
         self.num_of_shots = 2
-
+        #Настройка скорости
         self.speedy = 30
 
     def update(self):
         if self.rect.bottom > 50 and self.rect.bottom < 130:
             for i in range(self.num_of_shots):
                 self.shoot()
-
+        #Обновление экрана с изменением функций
         if self.rect.bottom <= 120:
             self.rect.bottom += 4
         if self.rect.bottom > 120 and self.rect.bottom < 140:
@@ -71,6 +73,7 @@ class EnemyShip(pygame.sprite.Sprite):
             self.rect.centerx = random.randrange(50, WINDOWWIDTH - 50)
             self.rect.y = random.randrange(-200, -50)
     def shoot(self):
+        #Функция выстрела со звуком
         current_time = pygame.time.get_ticks()
         if current_time - self.last_shot > self.shoot_delay:
             self.last_shot = current_time
@@ -122,14 +125,14 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.bottom = y
         self.speedy = -15
-
+   #Ускоряем движение
     def update(self):
         self.rect.y += self.speedy
-
+        #Если ослаб - удаляем
         if self.rect.bottom < 35:
             self.kill()
 
-
+#
 class EnemyBullet(pygame.sprite.Sprite):
     def __init__(self, bullet_image, x, y):
         super().__init__()
@@ -142,7 +145,7 @@ class EnemyBullet(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.y += self.speedy
-
+        #Если пропал - удаляем
         if self.rect.bottom > WINDOWHEIGHT:
             self.kill()
 
@@ -321,7 +324,7 @@ class Player(pygame.sprite.Sprite):
 
         self.rect.x += self.speedx
         self.rect.y += self.speedy
-
+    #Функция выстрела - как стреляем в зависимости от того, насколько попали
     def shoot(self):
         current_time = pygame.time.get_ticks()
         if current_time - self.last_shot > self.shoot_delay:
@@ -368,6 +371,7 @@ class Player(pygame.sprite.Sprite):
 
 #Задаем окно - меню 
 def menu():
+    #Дизайн экрана и формы
     background = pygame.image.load('images/stars_bg.jpeg').convert()
     background_rect = background.get_rect()
 
@@ -386,7 +390,7 @@ def menu():
     draw_text(DISPLAYSURF, "SHOOT:", 35, 101, 516, WHITE)
 
     pygame.display.update()
-
+    #Запуск самой игры и считывание кнопок
     while True:
         event = pygame.event.poll()
         if event.type == pygame.KEYDOWN:
@@ -399,6 +403,7 @@ def menu():
             pygame.quit()
             sys.exit()    
 
+#Изображение жизни в панельке меню
 def draw_lives(surface, x, y, lives, image):
     for i in range(lives):
         img_rect = image.get_rect()
@@ -406,14 +411,14 @@ def draw_lives(surface, x, y, lives, image):
         img_rect.y = y
         surface.blit(image, img_rect)
 
-
+#Сохраняем формат текста единым
 def draw_text(surface, text, size, x, y, color):
     font = pygame.font.Font(pygame.font.match_font('arial'), size)
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect()
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
-
+#Цвет ползунка жизни
 def shield_bar(surface, player_shield):
     if player_shield > 100:
         player_shield_color = GREEN
@@ -424,10 +429,11 @@ def shield_bar(surface, player_shield):
         player_shield_color = YELLOW
     else:
         player_shield_color = RED
-
+#Рисовка ползунка
     pygame.draw.rect(surface, GREY, (5, 5, 104, 24), 3)
     pygame.draw.rect(surface, player_shield_color, (7, 7, player_shield, 20))
 
+#Функция для тестирования алгоритма
 def shield_bar1(surface, player_shield):
     if player_shield > 100:
         player_shield_color = GREEN
@@ -541,13 +547,13 @@ def main():
                 asteroids.add(new_asteroid)   
 
             score = 0
-
+        #Пока идет игра - запускаем функции
         for event in pygame.event.get():
             if event.type == QUIT:
                 running = False
                 pygame.quit()
                 sys.exit()
-
+        #Обновляем все элементы при изменении одного
         all_active_sprites.update()
 
         asteroid_hit = pygame.sprite.groupcollide(asteroids, bullets, True, pygame.sprite.collide_circle)
