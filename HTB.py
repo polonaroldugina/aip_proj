@@ -132,7 +132,7 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 35:
             self.kill()
 
-#
+#Зададим спрайт для лазера - пули
 class EnemyBullet(pygame.sprite.Sprite):
     def __init__(self, bullet_image, x, y):
         super().__init__()
