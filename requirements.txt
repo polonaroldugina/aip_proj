@@ -1,0 +1,7 @@
+Pygame
+sys
+random
+os
+PyQt5
+copy
+unittest
