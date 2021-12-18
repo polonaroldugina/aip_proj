@@ -34,7 +34,7 @@ pygame.display.set_caption('HIT THE BALL')
 
 FPSCLOCK = pygame.time.Clock()
 
-#Зададим класс препятствий
+#Зададим класс препятствий - его вид, звук
 class EnemyShip(pygame.sprite.Sprite):
     def __init__(self, enemy_image, bullet_image, sprites_list, bullet_list, bullet_sound, boost_anim):
         super().__init__()
@@ -84,6 +84,7 @@ class EnemyShip(pygame.sprite.Sprite):
             self.bullet_sound.set_volume(0.2)
 
     def divebomb(self):
+        #Добавляем функцию, которая добавляет еще один спрайт на экран и задает скорость
         boost = Boost(self.rect.center, 'boost', self.boost_anim)
         self.sprites.add(boost)
         self.rect.bottom += self.speedy
@@ -91,6 +92,7 @@ class EnemyShip(pygame.sprite.Sprite):
 #Зададим класс бустеров
 class Boost(pygame.sprite.Sprite):
     def __init__(self, center, b_type, boost_anim):
+        #Размеры, вид, координаты
         super().__init__()
         self.b_type = b_type
         self.boost_anim = boost_anim
@@ -118,6 +120,7 @@ class Boost(pygame.sprite.Sprite):
 #Зададим класс лазера, который будет стрелять
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, bullet_image, x, y):
+        #Координаты, картинка, которая соотвествует выстрелу лазера
         super().__init__()
         self.image = pygame.transform.scale(bullet_image, (8, 23))
         self.image.set_colorkey(BLACK)
@@ -132,7 +135,7 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 35:
             self.kill()
 
-#Зададим спрайт для лазера - пули
+#Зададим спрайт для лазера - пули в полете
 class EnemyBullet(pygame.sprite.Sprite):
     def __init__(self, bullet_image, x, y):
         super().__init__()
