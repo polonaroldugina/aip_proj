@@ -33,7 +33,7 @@ pygame.display.set_caption('HIT THE BALL')
 
 FPSCLOCK = pygame.time.Clock()
 
-#Зададим класс препятсвий
+#Зададим класс препятствий
 class EnemyShip(pygame.sprite.Sprite):
     def __init__(self, enemy_image, bullet_image, sprites_list, bullet_list, bullet_sound, boost_anim):
         super().__init__()
@@ -112,7 +112,7 @@ class Boost(pygame.sprite.Sprite):
                 self.rect.midtop = center
 
 
-#Зададим класс
+#Зададим класс лазера, который будет стрелять
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, bullet_image, x, y):
         super().__init__()
@@ -129,7 +129,7 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 35:
             self.kill()
 
-#Зададим класс препятсвий
+
 class EnemyBullet(pygame.sprite.Sprite):
     def __init__(self, bullet_image, x, y):
         super().__init__()
@@ -148,7 +148,7 @@ class EnemyBullet(pygame.sprite.Sprite):
 
 
 
-#Зададим класс препятсвий
+#Зададим класс препятсвий - шариков
 class Asteroid(pygame.sprite.Sprite):
     def __init__(self, asteroid_img, all_sprites, asteroid_sprites):
         super().__init__()
@@ -621,11 +621,11 @@ def main():
             if hit.type == 'missile':
                 score += 50
                 player.upgrade_power()
-
+       #Пропишем проигрыш
         if player.lives == 0 and not expl_ship.alive():
             pygame.mixer.music.stop()
             show_menu = True
-
+        #Настройки верхнего меню для отображения очков 
         DISPLAYSURF.fill(BLACK)
         DISPLAYSURF.blit(background, background_rect)
         all_active_sprites.draw(DISPLAYSURF)
