@@ -36,7 +36,18 @@ FPSCLOCK = pygame.time.Clock()
 
 #Зададим класс препятствий - его вид, звук
 class EnemyShip(pygame.sprite.Sprite):
+    """
+    Зададим настройки объекта и его характеристики, используем спрайты
+    """
     def __init__(self, enemy_image, bullet_image, sprites_list, bullet_list, bullet_sound, boost_anim):
+        """
+        
+        :param enemy_image: изображения для объектов типа enemy
+        :param bullet_image: изображения для объектов типа bullet
+        :param sprites_list: список всех объектов на экране
+        :param bullet_list: список всех бустеров - выстрелов
+        :param bullet_sound: звуки для бустера
+        """
         super().__init__()
         #Выбор размера и изображения объекта
         self.image = pygame.transform.scale(enemy_image, (60, 60))
@@ -61,7 +72,6 @@ class EnemyShip(pygame.sprite.Sprite):
         if self.rect.bottom > 50 and self.rect.bottom < 130:
             for i in range(self.num_of_shots):
                 self.shoot()
-        #Обновление экрана с изменением функций
         if self.rect.bottom <= 120:
             self.rect.bottom += 4
         if self.rect.bottom > 120 and self.rect.bottom < 140:
@@ -92,6 +102,12 @@ class EnemyShip(pygame.sprite.Sprite):
 #Зададим класс бустеров
 class Boost(pygame.sprite.Sprite):
     def __init__(self, center, b_type, boost_anim):
+        """
+        
+        :param center: координаты положения 
+        :param b_type: тип бустера
+        :param boost_anim: выбираем одну из списка бустеров анимацию
+        """
         #Размеры, вид, координаты
         super().__init__()
         self.b_type = b_type
@@ -120,7 +136,7 @@ class Boost(pygame.sprite.Sprite):
 #Зададим класс лазера, который будет стрелять
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, bullet_image, x, y):
-        #Координаты, картинка, которая соотвествует выстрелу лазера
+        #Координаты x y, картинка, которая соотвествует выстрелу лазера bullet_image
         super().__init__()
         self.image = pygame.transform.scale(bullet_image, (8, 23))
         self.image.set_colorkey(BLACK)
@@ -138,6 +154,7 @@ class Bullet(pygame.sprite.Sprite):
 #Зададим спрайт для лазера - пули в полете
 class EnemyBullet(pygame.sprite.Sprite):
     def __init__(self, bullet_image, x, y):
+        # Координаты x y, картинка, которая соотвествует выстрелу лазера bullet_image
         super().__init__()
         self.image = pygame.transform.scale(bullet_image, (8, 23))
         self.image.set_colorkey(BLACK)
@@ -157,6 +174,12 @@ class EnemyBullet(pygame.sprite.Sprite):
 #Зададим класс препятсвий - шариков
 class Asteroid(pygame.sprite.Sprite):
     def __init__(self, asteroid_img, all_sprites, asteroid_sprites):
+        """
+        
+        :param asteroid_img: изображения шарика - препятсвия
+        :param all_sprites: список остальных спрайтом
+        :param asteroid_sprites: список остальных астероидов
+        """
         super().__init__()
         self.image_orig = random.choice(asteroid_img)
         self.image = self.image_orig.copy()
@@ -199,6 +222,12 @@ class Asteroid(pygame.sprite.Sprite):
 #
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, center, ex_type, explosion_anim):
+        """
+        
+        :param center: положение на экране
+        :param ex_type: массив прошлых данных
+        :param explosion_anim: анимазиця объекта 
+        """
         super().__init__()
         self.ex_type = ex_type
         self.explosion_anim = explosion_anim
@@ -226,6 +255,11 @@ class Explosion(pygame.sprite.Sprite):
 #Зададим класс увелечения силы при получении аптечки
 class PowerUp(pygame.sprite.Sprite):
     def __init__(self, center, powerup_images):
+        """
+        
+        :param center: положение на экране
+        :param powerup_images: импорт изображения для данного предмета
+        """
         super().__init__()
         self.type = random.choice(['shield'])
         self.image = powerup_images[self.type]
@@ -241,6 +275,11 @@ class PowerUp(pygame.sprite.Sprite):
 
 #Зададим класс аптечки
 class Shield(pygame.sprite.Sprite):
+    """
+    Зададим класс аптечки
+    Которая будет помогат герою
+    """
+    
     def __init__(self, image, center, player):
         super().__init__()
         self.image = pygame.transform.scale(image, (85, 85))
@@ -260,8 +299,10 @@ class Shield(pygame.sprite.Sprite):
             self.rect.centery = self.player.rect.centery
 
 
-#Основной класс игрока - джойстика
 class Player(pygame.sprite.Sprite):
+    """
+    Основной класс игрока - джойстика
+    """
     def __init__(self, player_image, bullet_image, missile_image, sprites_list, bullet_list, bullet_sound, missile_sound):
         super().__init__()
         self.image = pygame.transform.scale(player_image, (70, 70))
@@ -371,7 +412,7 @@ class Player(pygame.sprite.Sprite):
         elif self.upgrade < 3:
             self.upgrade += 1
         self.upgrade_timer = pygame.time.get_ticks()
-
+# Функция, в которой мы прячем вне экрана объект
     def hide(self):
         self.hidden = True
         self.rect.center = (WINDOWWIDTH / 2, WINDOWHEIGHT + 100)
@@ -414,6 +455,15 @@ def menu():
 
 #Изображение жизни в панельке меню
 def draw_lives(surface, x, y, lives, image):
+    """
+    
+    :param surface:поверхность, где мы рисуем наши фигуры = экран
+    :param x: координата
+    :param y: координата 
+    :param lives: количество оставшихся у героя жизней
+    :param image: изображения для панели
+    :return: 
+    """
     for i in range(lives):
         img_rect = image.get_rect()
         img_rect.x = x + 30 * i
@@ -422,6 +472,16 @@ def draw_lives(surface, x, y, lives, image):
 
 #Сохраняем формат текста единым
 def draw_text(surface, text, size, x, y, color):
+    """
+    
+    :param surface: поверхность, где мы рисуем наши фигуры = экран
+    :param text: текст для отображения
+    :param size: размер текста
+    :param x: координата
+    :param y: координата
+    :param color: цвет выходного текста
+     
+    """
     font = pygame.font.Font(pygame.font.match_font('arial'), size)
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect()
@@ -429,6 +489,13 @@ def draw_text(surface, text, size, x, y, color):
     surface.blit(text_surface, text_rect)
 #Цвет ползунка жизни
 def shield_bar(surface, player_shield):
+    """
+    
+    :param surface: поверхность, где мы рисуем наши фигуры
+    :param player_shield: "здоровье" героя
+     
+    """
+    
     if player_shield > 100:
         player_shield_color = GREEN
         player_shield = 100
@@ -444,6 +511,12 @@ def shield_bar(surface, player_shield):
 
 #Функция для тестирования алгоритма
 def shield_bar1(surface, player_shield):
+    """
+    
+    :param surface: 
+    :param player_shield: 
+    :return: 
+    """
     if player_shield > 100:
         player_shield_color = GREEN
         player_shield = 100
@@ -455,9 +528,12 @@ def shield_bar1(surface, player_shield):
         player_shield_color = RED
 
 
-#Основная функция запуска
 def main():
-    #Настраиваем фон главного меню
+    """
+    Основная функция запуска
+    Настраиваем фон главного меню
+    """
+    
     background = pygame.image.load('images/stars_bg.jpeg').convert()
     background_rect = background.get_rect()
     
@@ -527,6 +603,7 @@ def main():
 
     running = True
     show_menu = True
+    #Пока идет показ группируем объекты и с периодичностью запукаем новые препятсвия
     while running:
         if show_menu:
             menu()
