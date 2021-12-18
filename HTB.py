@@ -56,7 +56,7 @@ class EnemyShip(pygame.sprite.Sprite):
         self.num_of_shots = 2
         #Настройка скорости
         self.speedy = 30
-
+    #Обновление экрана с изменением функций
     def update(self):
         if self.rect.bottom > 50 and self.rect.bottom < 130:
             for i in range(self.num_of_shots):
@@ -100,7 +100,7 @@ class Boost(pygame.sprite.Sprite):
         self.frame = 0
         self.last_update = pygame.time.get_ticks()
         self.frame_rate = 35
-
+    #Обновление экрана с изменением функций
     def update(self):
         current_time = pygame.time.get_ticks()
         if current_time - self.last_update > self.frame_rate:
@@ -125,7 +125,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.bottom = y
         self.speedy = -15
-   #Ускоряем движение
+  #Обновление экрана с изменением функций
     def update(self):
         self.rect.y += self.speedy
         #Если ослаб - удаляем
@@ -142,7 +142,7 @@ class EnemyBullet(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.bottom = y
         self.speedy = 15
-
+#Обновление экрана с изменением функций
     def update(self):
         self.rect.y += self.speedy
         #Если пропал - удаляем
@@ -170,6 +170,7 @@ class Asteroid(pygame.sprite.Sprite):
         self.rotation_speed = random.randrange(-7, 5)
         self.last_update = pygame.time.get_ticks()
 
+   #Обновление экрана с изменением функций     
     def update(self):
         self.rotate()
         self.rect.y += self.speedy
@@ -204,7 +205,8 @@ class Explosion(pygame.sprite.Sprite):
         self.frame = 0
         self.last_update = pygame.time.get_ticks()
         self.frame_rate = 100
-
+        
+#Обновление экрана с изменением функций
     def update(self):
         current_time = pygame.time.get_ticks()
         if current_time - self.last_update > self.frame_rate:
@@ -227,7 +229,8 @@ class PowerUp(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = center
         self.speedy = 4
-
+        
+#Обновление экрана с изменением функций
     def update(self):
         self.rect.y += self.speedy
         if self.rect.top > WINDOWHEIGHT + 10:
@@ -242,6 +245,7 @@ class Shield(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(self.center))
         self.player = player
 
+ #Обновление экрана с изменением функций       
     def update(self):
         self.rect.centerx = self.player.rect.centerx
         self.rect.centery = self.player.rect.centery
@@ -284,6 +288,7 @@ class Player(pygame.sprite.Sprite):
         self.upgrade = 1
         self.upgrade_timer = pygame.time.get_ticks()
 
+#Обновление экрана с изменением функций        
     def update(self):
         if self.hidden and (pygame.time.get_ticks() - self.hide_timer > 1500):
             self.hidden = False
@@ -355,7 +360,8 @@ class Player(pygame.sprite.Sprite):
                 self.bullets.add(missile2)
                 self.bullet_sound.play()
                 self.missile_sound.play()
-
+                
+#Обновление силы с изменением функций
     def upgrade_power(self):
         if self.upgrade >= 3:
             self.upgrade = 3
@@ -555,7 +561,7 @@ def main():
                 sys.exit()
         #Обновляем все элементы при изменении одного
         all_active_sprites.update()
-
+        #Обновление экрана с изменением функций 
         asteroid_hit = pygame.sprite.groupcollide(asteroids, bullets, True, pygame.sprite.collide_circle)
         for hit in asteroid_hit:
             score += 50 - hit.radius
@@ -597,7 +603,7 @@ def main():
                 player.shield = 100
 
         player_hit_by_ship = pygame.sprite.spritecollide(player, enemy_ships, True)
-
+        
         for hit in player_hit_by_ship:
             player.shield -= 35
             ship_expl.play()
@@ -638,7 +644,7 @@ def main():
         DISPLAYSURF.blit(black_bar, (0,0))
         pygame.draw.rect(DISPLAYSURF, GREY, (0, 0, WINDOWWIDTH, 35), 3)
         shield_bar(DISPLAYSURF, player.shield)
-
+        # Добавим 
         draw_text(DISPLAYSURF, "ОЧКИ", 12, WINDOWWIDTH / 2, 2, WHITE)
         draw_text(DISPLAYSURF, str(score), 23, WINDOWWIDTH / 2, 12, WHITE)
 
@@ -647,6 +653,7 @@ def main():
         FPSCLOCK.tick(FPS)
         pygame.display.flip()
 
-
+        
+#ЗАПУСК ИГРЫ
 if __name__ == "__main__":
     main()
