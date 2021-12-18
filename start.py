@@ -20,8 +20,12 @@ import HTB
 
 
 
-#Класс главного окна - меню
 class Ui_MainWindow(object):
+    """
+    Класс главного окна - меню
+    В данной функции происходит дизайн класса, мы задаем объекты и присваиваем им функции
+    Импортируем файл ui
+    """
     def setupUi(self, MainWindow):
         #Дизайн класса, задаем объекты и присваиваем им функции
         MainWindow.setObjectName("MainWindow")
@@ -75,23 +79,31 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "HIT THE BALL - НАЧАЛО ИГРЫ"))
         
 
-    def snake(self): #Вызов игры змейка
+    def snake(self): 
+        """Вызов игры змейка - функция привязана к кнопке pushButton
+        """
         snake.main(config)
 
-    def htb(self): #Вызов игры Hit the Ball
+    def htb(self):
+        """Вызов игры Hit the Ball - функция привязана к кнопке pushButton2
+                """
         HTB.main() 
 
 
         
 class ExampleApp(QtWidgets.QMainWindow, start.Ui_MainWindow ):
     def __init__(self):
-        # Это здесь нужно для доступа к переменным, методам
-        # и т.д. в файле .py
+        """ Это здесь нужно для доступа к переменным, методам
+         и т.д. в файле .py"""
         super().__init__()
-        self.setupUi(self)  # Это нужно для инициализации дизайна
+        self.setupUi(self)  #инициализация дизайна
 
 
 def main1():
+    """
+    При вызове программы запускаем и создаем окно, показываем пользователю
+     
+    """
     app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
     window = ExampleApp()  # Создаём объект класса ExampleApp
     window.show()  # Показываем окно
@@ -100,5 +112,3 @@ def main1():
 if __name__ == '__main__':  # Если мы запускаем файл напрямую, а не импортируем
     main1()  # то запускаем функцию main1()
         
-        
-
